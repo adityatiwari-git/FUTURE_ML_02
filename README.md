@@ -100,6 +100,41 @@ Dashboard pages:
 - **Model evaluation:** comparison table, confusion matrix and class-wise report.
 - **Triage policy:** explicit priority rules and their limitations.
 
+
+## Latest benchmark results
+
+The first full GitHub Actions training run downloaded the official Zenodo files and evaluated all three models on the publisher-provided 657-ticket test split (1,572 training tickets). Results:
+
+| Model | Accuracy | Macro precision | Macro recall | Macro F1 | Weighted F1 |
+|---|---:|---:|---:|---:|---:|
+| **Linear SVM** | **0.802** | 0.782 | 0.763 | **0.771** | **0.802** |
+| Logistic Regression | 0.785 | 0.761 | **0.766** | 0.758 | 0.791 |
+| Multinomial Naive Bayes | 0.711 | **0.787** | 0.575 | 0.609 | 0.682 |
+
+**Selected model: Linear SVM**, chosen by macro F1. It reached 80.2% accuracy and 0.771 macro F1 on this single held-out split. These are benchmark results, not a guarantee of performance on another helpdesk or ticket taxonomy.
+
+### Class-wise performance (Linear SVM)
+
+| Category | Precision | Recall | F1 | Test tickets |
+|---|---:|---:|---:|---:|
+| Active Directory | 0.59 | 0.59 | 0.59 | 49 |
+| Computer-Services | 0.81 | 0.63 | 0.71 | 41 |
+| EOL | 1.00 | 1.00 | 1.00 | 58 |
+| Fileservice | 0.95 | 0.94 | 0.95 | 138 |
+| O365 | 0.65 | 0.72 | 0.68 | 92 |
+| Software | 0.66 | 0.64 | 0.65 | 58 |
+| Support general | 0.81 | 0.82 | 0.81 | 221 |
+
+### Interpretation
+
+- Linear SVM achieved the strongest overall macro F1 and weighted F1 among the three tested models.
+- Fileservice and EOL were classified strongly in this test split.
+- Active Directory and Software remain weaker categories; their errors deserve attention before operational use.
+- Macro F1 was used for model selection so smaller categories contribute equally to the selection criterion.
+- The dataset provides no urgency labels, so there are deliberately no fabricated priority-model scores.
+
+GitHub Actions runs the unit tests, trains on the official Zenodo split, and uploads the generated metrics and charts as the **ticket-classification-evaluation** workflow artifact.
+
 ## Responsible use and limitations
 
 - The model predicts one of the seven categories represented in this dataset; it may not generalize to another organization's taxonomy.
