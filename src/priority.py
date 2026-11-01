@@ -2,7 +2,7 @@
 import re
 
 HIGH_PATTERNS = (
-    r"\b(outage|service down|system down|production down|network down|server down)\b",
+    r"\b(outage|service down|service is down|system down|system is down|production down|production server is down|network down|network is down|server down|server is down)\b",
     r"\b(all users|entire team|everyone|multiple users)\b.*\b(cannot|unable|down|blocked)\b",
     r"\b(security breach|data breach|ransomware|malware|compromised|unauthorized access)\b",
     r"\b(critical failure|business critical|complete failure|emergency)\b",
