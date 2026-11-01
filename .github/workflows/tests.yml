@@ -1,11 +1,11 @@
-name: Tests
+name: Tests and model validation
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 jobs:
-  test:
+  test-and-train:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,5 +13,15 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: python -m unittest discover -s tests -v
-      - run: python -m compileall -q src app.py
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Check Python syntax
+        run: python -m compileall -q src app.py
+      - name: Train and evaluate on the official Zenodo split
+        run: python src/train.py
+      - name: Save evaluation reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: ticket-classification-evaluation
+          path: reports/
+          if-no-files-found: error
