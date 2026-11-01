@@ -15,6 +15,9 @@ class PriorityTests(unittest.TestCase):
     def test_outage_is_high(self):
         self.assertEqual(assign_priority("Production server down for all users")["priority"], "High")
 
+    def test_is_down_outage_is_high(self):
+        self.assertEqual(assign_priority("Production server is down")["priority"], "High")
+
     def test_information_request_is_low(self):
         self.assertEqual(assign_priority("How do I find the user guide?")["priority"], "Low")
 
