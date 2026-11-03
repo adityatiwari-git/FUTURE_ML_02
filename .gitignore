@@ -3,10 +3,18 @@ __pycache__/
 .venv/
 venv/
 .ipynb_checkpoints/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Generated models, reports and raw data
 models/*
 !models/.gitkeep
 reports/*
 !reports/.gitkeep
 data/raw/*
 !data/raw/.gitkeep
+
 .DS_Store
